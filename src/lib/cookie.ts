@@ -9,8 +9,7 @@ export const setCookie = (name: string, value: string) => {
     "=" +
     value +
     expires +
-    "; path=/; secure; SameSite=Strict; domain=" +
-    import.meta.env.VITE_COOKIE_DOMAIN
+    "; path=/; secure; SameSite=Strict;"
 }
 
 export const getCookie = (name: string) => {
@@ -31,6 +30,5 @@ export const getCookie = (name: string) => {
 export const removeCookie = (name: string) => {
   document.cookie =
     name +
-    "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=" +
-    import.meta.env.VITE_COOKIE_DOMAIN
+    "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;"
 }

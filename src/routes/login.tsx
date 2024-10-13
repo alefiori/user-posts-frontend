@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/loginForm"
+import { LoginData, LoginForm } from "@/components/loginForm"
 import {
   Card,
   CardContent,
@@ -14,7 +14,7 @@ export default function Login() {
   const navigate = useNavigate()
   const { toast } = useToast()
 
-  const onSubmit = async (values: LoginForm) => {
+  const onSubmit = async (values: LoginData) => {
     try {
       await login(values)
       navigate("/")

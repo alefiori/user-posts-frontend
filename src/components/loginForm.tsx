@@ -22,14 +22,14 @@ const formSchema = z.object({
   }),
 })
 
-export type LoginForm = z.infer<typeof formSchema>
+export type LoginData = z.infer<typeof formSchema>
 
 type Props = {
-  onSubmit: (values: LoginForm) => void
+  onSubmit: (values: LoginData) => void
 }
 
 export const LoginForm: FC<Props> = ({ onSubmit }) => {
-  const form = useForm<LoginForm>({
+  const form = useForm<LoginData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -72,11 +72,7 @@ export const LoginForm: FC<Props> = ({ onSubmit }) => {
             Sign up
           </Link>
         </div>
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={!form.formState.isValid}
-        >
+        <Button type="submit" className="w-full">
           Login
         </Button>
       </form>

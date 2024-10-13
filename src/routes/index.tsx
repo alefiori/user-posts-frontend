@@ -2,6 +2,7 @@ import { RouteObject } from "react-router-dom"
 import Auth from "./auth"
 import Home from "./home"
 import Login from "./login"
+import Public from "./public"
 import Root from "./root"
 import Signup from "./signup"
 
@@ -19,12 +20,17 @@ export const routes: Array<RouteObject> = [
         ],
       },
       {
-        path: "/signup",
-        element: <Signup />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
+        element: <Public />,
+        children: [
+          {
+            path: "/signup",
+            element: <Signup />,
+          },
+          {
+            path: "/login",
+            element: <Login />,
+          },
+        ],
       },
     ],
   },
