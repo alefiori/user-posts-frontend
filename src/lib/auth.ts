@@ -22,3 +22,9 @@ export const logout = (): void => {
 
 export const isLoggedIn = (): boolean =>
   !!getCookie(AUTH_TOKEN_KEY) && !!getCookie(USER_ID_KEY)
+
+export const getUserId = (): number => {
+  const userId = getCookie(USER_ID_KEY)
+  if (!userId) throw new Error("User ID not found")
+  return parseInt(userId)
+}

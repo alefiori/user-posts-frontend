@@ -9,7 +9,7 @@ export type UserCreate = UserCredentials & {
   pictureUrl?: string
 }
 
-export type UserUpdate = Partial<UserCreate>
+export type UserUpdate = Partial<Omit<UserCreate, "password">>
 
 export type User = {
   id: number

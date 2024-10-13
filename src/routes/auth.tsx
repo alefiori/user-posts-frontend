@@ -19,7 +19,9 @@ export default function Auth() {
   return (
     <main className="max-w-screen-2xl mx-auto">
       <Header onLogout={onLogout} />
-      <Outlet />
+      <section className="mt-4 px-4">
+        <Outlet />
+      </section>
     </main>
   )
 }

@@ -90,7 +90,7 @@ export default function Home() {
   }
 
   return (
-    <section className="mt-4 px-4">
+    <>
       <ul className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-5">
         <li className="aspect-square">
           <NewPostCard onClick={toggleModal} />
@@ -111,6 +111,6 @@ export default function Home() {
         onSubmit={onSubmit}
         {...selectedPost}
       />
-    </section>
+    </>
   )
 }
