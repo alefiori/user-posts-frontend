@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { LoginForm } from "@/components/loginForm"
 import {
   Card,
   CardContent,
@@ -6,12 +6,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { P } from "@/components/ui/typography"
-import { Link } from "react-router-dom"
+import { useToast } from "@/hooks/use-toast"
+import { login } from "@/lib/auth"
+import { useNavigate } from "react-router-dom"
 
 export default function Login() {
+  const navigate = useNavigate()
+  const { toast } = useToast()
+
+  const onSubmit = async (values: LoginForm) => {
+    try {
+      await login(values)
+      navigate("/")
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "An error occurred",
+        variant: "destructive",
+      })
+    }
+  }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader className="space-y-1">
@@ -21,30 +37,7 @@ export default function Login() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" required />
-          </div>
-          <div className="flex gap-2 items-center">
-            <P>Don't have an account?</P>
-            <Link to="/signup" className="text-blue-500">
-              Sign up
-            </Link>
-          </div>
-          <Button type="submit" className="w-full">
-            Login
-          </Button>
-        </div>
+        <LoginForm onSubmit={onSubmit} />
       </CardContent>
     </Card>
   )
