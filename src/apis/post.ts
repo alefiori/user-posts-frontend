@@ -12,4 +12,4 @@ export const updatePost = async (id: number, post: PostUpdate) =>
   getHttpResponse<Post>(`${POST_API}/${id}`, "PATCH", post)
 
 export const deletePost = async (id: number) =>
-  getHttpResponse<Post>(`${POST_API}/${id}`, "DELETE")
+  getHttpResponse<{ message: string }>(`${POST_API}/${id}`, "DELETE")

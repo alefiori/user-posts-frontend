@@ -33,7 +33,7 @@ export default function Signup() {
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
         <CardDescription>
-          Enter your email and password to create an account
+          Sign up to create an account and start posting!
         </CardDescription>
       </CardHeader>
       <CardContent>

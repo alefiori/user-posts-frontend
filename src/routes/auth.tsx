@@ -1,4 +1,5 @@
-import { isLoggedIn } from "@/lib/auth"
+import { Header } from "@/components/header"
+import { isLoggedIn, logout } from "@/lib/auth"
 import { useEffect } from "react"
 import { Outlet, useNavigate } from "react-router-dom"
 
@@ -7,10 +8,17 @@ export default function Auth() {
 
   useEffect(() => {
     if (!isLoggedIn()) navigate("/login")
-  }, [navigate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const onLogout = () => {
+    logout()
+    navigate("/login")
+  }
 
   return (
-    <main>
+    <main className="max-w-screen-2xl mx-auto">
+      <Header onLogout={onLogout} />
       <Outlet />
     </main>
   )

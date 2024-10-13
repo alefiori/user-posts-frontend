@@ -7,10 +7,11 @@ export default function Public() {
 
   useEffect(() => {
     if (isLoggedIn()) navigate("/")
-  }, [navigate])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
-    <main className="h-screen flex items-center">
+    <main className="h-screen flex items-center bg-blue-100">
       <Outlet />
     </main>
   )
