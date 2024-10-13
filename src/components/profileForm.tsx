@@ -29,9 +29,14 @@ export type ProfileData = z.infer<typeof formSchema>
 
 type Props = Omit<User, "id"> & {
   onSubmit: (values: ProfileData) => void
+  onDelete: () => void
 }
 
-export const ProfileForm: FC<Props> = ({ onSubmit, ...defaultValues }) => {
+export const ProfileForm: FC<Props> = ({
+  onSubmit,
+  onDelete,
+  ...defaultValues
+}) => {
   const form = useForm<ProfileData>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -103,6 +108,14 @@ export const ProfileForm: FC<Props> = ({ onSubmit, ...defaultValues }) => {
         />
         <Button type="submit" className="w-full">
           Save
+        </Button>
+        <Button
+          type="button"
+          variant="destructive"
+          className="w-full"
+          onClick={onDelete}
+        >
+          Delete Account
         </Button>
       </form>
     </Form>
