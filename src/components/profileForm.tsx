@@ -1,6 +1,8 @@
+import userImage from "@/assets/user.png"
+import { useToast } from "@/hooks/use-toast"
 import { User } from "@/types/user"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FC } from "react"
+import { FC, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Button } from "./ui/button"
@@ -13,6 +15,7 @@ import {
   FormMessage,
 } from "./ui/form"
 import { Input } from "./ui/input"
+import { CameraIcon } from "./cameraIcon"
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -35,12 +38,15 @@ type Props = Omit<User, "id"> & {
 export const ProfileForm: FC<Props> = ({
   onSubmit,
   onDelete,
+  pictureUrl,
   ...defaultValues
 }) => {
+  const [preview, setPreview] = useState<File>()
   const form = useForm<ProfileData>({
     resolver: zodResolver(formSchema),
     defaultValues,
   })
+  const { toast } = useToast()
 
   const profilePictureRef = form.register("profilePicture")
 
@@ -54,14 +60,41 @@ export const ProfileForm: FC<Props> = ({
             return (
               <FormItem>
                 <FormLabel>Profile Picture</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    placeholder="profilePicture"
-                    {...profilePictureRef}
+                <div className="relative w-24 h-24 hover:brightness-50 group">
+                  <img
+                    src={
+                      preview
+                        ? URL.createObjectURL(preview)
+                        : pictureUrl || userImage
+                    }
+                    alt="Profile"
+                    className="w-full h-full object-cover rounded-full"
                   />
-                </FormControl>
+                  <FormControl>
+                    <Input
+                      className="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
+                      type="file"
+                      accept="image/*"
+                      placeholder="profilePicture"
+                      {...profilePictureRef}
+                      onChange={(event) => {
+                        if (!event.target.files?.length) return
+                        const { size } = event.target.files[0]
+                        if (size > 5 * 1024 * 1024) {
+                          toast({
+                            title: "Error",
+                            description: "File size must be less than 5MB",
+                            variant: "destructive",
+                          })
+                          event.target.value = ""
+                          return
+                        }
+                        setPreview(event.target.files[0])
+                      }}
+                    />
+                  </FormControl>
+                  <CameraIcon className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100" />
+                </div>
                 <FormMessage />
               </FormItem>
             )

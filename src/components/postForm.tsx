@@ -19,7 +19,7 @@ const formSchema = z.object({
     message: "Title is required",
   }),
   content: z.string().min(1, {
-    message: "Body is required",
+    message: "Content is required",
   }),
 })
 

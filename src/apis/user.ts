@@ -18,8 +18,28 @@ export const getUser = async (id: number) =>
 export const updateUser = async (id: number, user: UserUpdate) =>
   getHttpResponse<User>(`${USER_API}/${id}`, "PATCH", user)
 
+export const updateUserPassword = async (
+  id: number,
+  body: { oldPassword: string; newPassword: string }
+) =>
+  getHttpResponse<{ message: string }>(
+    `${USER_API}/${id}/password`,
+    "PATCH",
+    body
+  )
+
 export const deleteUser = async (id: number) =>
-  getHttpResponse<User>(`${USER_API}/${id}`, "DELETE")
+  getHttpResponse<{ message: string }>(`${USER_API}/${id}`, "DELETE")
 
 export const authenticateUser = async (credentials: UserCredentials) =>
   getHttpResponse<UserAuth>(`${USER_API}/authenticate`, "POST", credentials)
+
+export const uploadUserImage = async (id: number, image: File) => {
+  const formData = new FormData()
+  formData.append("file", image)
+  return getHttpResponse<{ url: string }>(
+    `${USER_API}/${id}/image`,
+    "POST",
+    formData
+  )
+}

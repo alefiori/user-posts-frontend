@@ -5,7 +5,7 @@ import { PostData, PostForm } from "./postForm"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
 
 type Props = Partial<Post> & {
-  open?: boolean
+  open: boolean
   toggleModal: () => void
   onSubmit: (values: PostData) => void
   onCancel: () => void

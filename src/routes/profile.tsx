@@ -1,4 +1,12 @@
-import { deleteUser, getUser, updateUser } from "@/apis/user"
+import {
+  deleteUser,
+  getUser,
+  updateUser,
+  updateUserPassword,
+  uploadUserImage,
+} from "@/apis/user"
+import { ChangePasswordDialog } from "@/components/changePasswordDialog"
+import { ChangePasswordData } from "@/components/changePasswordForm"
 import { ProfileData, ProfileForm } from "@/components/profileForm"
 import { useToast } from "@/hooks/use-toast"
 import { getUserId, logout } from "@/lib/auth"
@@ -31,9 +39,14 @@ export default function Profile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const onSubmit = async (values: ProfileData) => {
+  const onSubmit = async ({ profilePicture, ...values }: ProfileData) => {
     try {
-      await updateUser(userId, values)
+      if (profilePicture) {
+        const { url } = await uploadUserImage(userId, profilePicture[0])
+        await updateUser(userId, { ...values, pictureUrl: url })
+      } else {
+        await updateUser(userId, values)
+      }
       toast({
         title: "Success",
         description: "Profile updated",
@@ -68,11 +81,32 @@ export default function Profile() {
     }
   }
 
+  const onChangePassword = async (values: ChangePasswordData) => {
+    try {
+      await updateUserPassword(userId, {
+        oldPassword: values.currentPassword,
+        newPassword: values.newPassword,
+      })
+      toast({
+        title: "Success",
+        description: "Password changed",
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "An error occurred",
+        variant: "destructive",
+      })
+    }
+  }
+
   return (
-    <>
-      {user && (
+    user && (
+      <>
         <ProfileForm onSubmit={onSubmit} onDelete={onDelete} {...user} />
-      )}
-    </>
+        <ChangePasswordDialog onSubmit={onChangePassword} />
+      </>
+    )
   )
 }

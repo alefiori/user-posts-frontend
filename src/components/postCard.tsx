@@ -10,7 +10,7 @@ type Props = Omit<Post, "id"> & {
 export const PostCard: FC<Props> = ({ title, content, onClick }) => {
   return (
     <Card
-      className="w-full h-full cursor-pointer hover:shadow-lg hover:bg-blue-50"
+      className="w-full h-full cursor-pointer hover:shadow-lg hover:bg-blue-50 overflow-hidden"
       onClick={onClick}
     >
       <CardHeader>
